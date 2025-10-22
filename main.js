@@ -480,7 +480,7 @@ function displayProducts(data) {
 const productDetailDiv = document.getElementById('detail-product');
 if (productDetailDiv) {
     const id = new URLSearchParams(window.location.search).get('id');
-    fetch(`https://github.com/nguyenngockimlong2006-arch/backend-json/blob/main/db.json`)
+    fetch(`https://raw.githubusercontent.com/nguyenngockimlong2006-arch/backend-json/refs/heads/main/db.json`)
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(data => {
             const product = new Product(data.id, data.name, data.price, data.image, data.category, data.hot, data.description);
@@ -506,7 +506,7 @@ function fetchAndRenderProducts() {
         return;
     }
 
-    fetch('https://github.com/nguyenngockimlong2006-arch/backend-json/blob/main/db.json')
+    fetch('https://raw.githubusercontent.com/nguyenngockimlong2006-arch/backend-json/refs/heads/main/db.json')
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(displayProducts)
         .catch(() => {
@@ -529,5 +529,6 @@ function initializeApplication() {
     initSlider();
     if (document.getElementById('checkoutForm')) initCheckoutLogic();
 }
+
 
 
