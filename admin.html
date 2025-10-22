@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - KLSTORE.VN</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Modal - Hidden -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="login-container">
+                <h2><i class="fas fa-shield-alt"></i> Đăng nhập Admin</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="adminEmail">Email:</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Mật khẩu:</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </button>
+                </form>
+                <p class="demo-credentials">
+                    Demo: admin@klstore.vn / admin123
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Admin Layout -->
+    <div id="adminApp">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-crown"></i> Admin Panel</h3>
+                <p>KLSTORE.VN</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item" data-page="products">
+                    <i class="fas fa-box"></i>
+                    <span>Quản lý sản phẩm</span>
+                </li>
+                <li class="menu-item" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>Quản lý người dùng</span>
+                </li>
+                <li class="menu-item" data-page="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Đơn hàng</span>
+                </li>
+                <li class="menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Cài đặt</span>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Về trang chủ
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="sidebarToggle" class="btn btn-icon">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="admin-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="adminName">Admin User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="page">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalProducts">0</h3>
+                                <p>Tổng sản phẩm</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Tổng người dùng</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalOrders">0</h3>
+                                <p>Đơn hàng</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalRevenue">0đ</h3>
+                                <p>Doanh thu</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-charts">
+                        <div class="chart-card">
+                            <h3>Sản phẩm nổi bật</h3>
+                            <div id="hotProductsChart"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Thống kê theo danh mục</h3>
+                            <div id="categoryChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Page -->
+                <div id="productsPage" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Quản lý sản phẩm</h2>
+                        <button id="addProductBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Thêm sản phẩm
+                        </button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="productSearch" placeholder="Tìm kiếm sản phẩm...">
+                        <select id="categoryFilter">
+                            <option value="">Tất cả danh mục</option>
+                            <option value="laptop">Laptop</option>
+                            <option value="điện thoại">Điện thoại</option>
+                        </select>
+                        <select id="hotFilter">
+                            <option value="">Tất cả</option>
+                            <option value="true">Sản phẩm hot</option>
+                            <option value="false">Sản phẩm thường</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Danh mục</th>
+                                    <th>Hot</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Users Page -->
+                <div id="usersPage" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Quản lý người dùng</h2>
+                        <button id="addUserBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Thêm người dùng
+                        </button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="userSearch" placeholder="Tìm kiếm người dùng...">
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Mật khẩu</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Page -->
+                <div id="ordersPage" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Quản lý đơn hàng</h2>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">
+                                        Chưa có đơn hàng nào
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settingsPage" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Cài đặt hệ thống</h2>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h3><i class="fas fa-database"></i> Quản lý dữ liệu</h3>
+                            <p>Backup và khôi phục dữ liệu</p>
+                            <button class="btn btn-secondary">Backup dữ liệu</button>
+                        </div>
+                        <div class="setting-card">
+                            <h3><i class="fas fa-palette"></i> Giao diện</h3>
+                            <p>Tùy chỉnh giao diện admin</p>
+                            <button class="btn btn-secondary">Cài đặt</button>
+                        </div>
+                        <div class="setting-card">
+                            <h3><i class="fas fa-bell"></i> Thông báo</h3>
+                            <p>Cài đặt thông báo hệ thống</p>
+                            <button class="btn btn-secondary">Cài đặt</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="productModalTitle">Thêm sản phẩm</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="productForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Tên sản phẩm:</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Giá:</label>
+                        <input type="number" id="productPrice" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productImage">Hình ảnh:</label>
+                        <div class="file-upload-container">
+                            <input type="file" id="productImage" accept="image/*" style="display: none;">
+                            <button type="button" class="file-upload-btn" onclick="document.getElementById('productImage').click()">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose File
+                            </button>
+                            <span class="file-name" id="fileName">Chưa chọn file</span>
+                        </div>
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">Danh mục:</label>
+                        <select id="productCategory" required>
+                            <option value="laptop">Laptop</option>
+                            <option value="điện thoại">Điện thoại</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Mô tả:</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="productHot">
+                        <span class="checkmark"></span>
+                        Sản phẩm hot
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelProduct">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="userModalTitle">Thêm người dùng</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="userName">Tên:</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email:</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Mật khẩu:</label>
+                    <input type="password" id="userPassword" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelUser">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
