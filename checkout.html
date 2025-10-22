@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - KLSTORE.VN</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS nội tuyến bổ sung cho trang thanh toán */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+            padding-bottom: 50px;
+        }
+        .info-form, .order-summary {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .summary-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
+            margin-top: 15px;
+        }
+        .checkout-submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .checkout-submit-btn:hover {
+            background-color: #ea580c;
+        }
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content">
+        <h1>📦 Tiến hành Thanh toán</h1>
+        <div class="checkout-grid">
+            
+            <div class="info-form">
+                <h2>1. Thông tin giao hàng</h2>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="fullName">Họ và Tên (*)</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại (*)</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ nhận hàng (*)</label>
+                        <textarea id="address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Ghi chú (Tùy chọn)</label>
+                        <textarea id="notes" rows="2"></textarea>
+                    </div>
+
+                    <h2>2. Phương thức thanh toán</h2>
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="cod" checked> Thanh toán khi nhận hàng (COD)
+                        </label><br>
+                        <label>
+                            <input type="radio" name="paymentMethod" value="bankTransfer"> Chuyển khoản ngân hàng
+                        </label>
+                    </div>
+                    
+                </form>
+            </div>
+            
+            <div class="order-summary">
+                <h2>3. Đơn hàng của bạn</h2>
+                <div id="checkoutItems" class="cart-items-container">
+                    <p style="text-align: center; color: var(--muted);">Giỏ hàng đang trống.</p>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Tạm tính:</span>
+                    <span id="subTotal">0 đ</span>
+                </div>
+                <div class="summary-total">
+                    <span>Phí vận chuyển:</span>
+                    <span id="shippingFee">Miễn phí</span>
+                </div>
+                <div class="summary-total" style="color: var(--primary-color);">
+                    <span>TỔNG CỘNG:</span>
+                    <span id="grandTotal">0 đ</span>
+                </div>
+                
+                <button type="submit" class="checkout-submit-btn" form="checkoutForm">HOÀN TẤT ĐẶT HÀNG</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeCart">&times;</span>
+            <h2>🛒 Giỏ Hàng Của Bạn</h2>
+            <div id="cartItems" class="cart-items-container"></div>
+            <div class="cart-total"><p>Tổng tiền:</p><span id="cartTotal">0 đ</span></div>
+            <button class="checkout-btn" onclick="window.location.href='checkout.html'">Thanh toán</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

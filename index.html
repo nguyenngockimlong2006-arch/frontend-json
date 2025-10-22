@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KLSTORE.VN - Shop Điện Tử Chính Hãng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section class="banner">
+        <div class="slider">
+            <div class="slides">
+                <div class="slide"><img src="img/banner1.png" alt="Banner 1"></div>
+                <div class="slide"><img src="img/banner2.png" alt="Banner 2"></div>
+                <div class="slide"><img src="img/banner3.png" alt="Banner 3"></div>
+                <div class="slide"><img src="img/banner4.png" alt="Banner 4"></div>
+                <div class="slide"><img src="img/banner5.png" alt="Banner 5"></div>
+            </div>
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+            <div class="dots">
+                </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <h1>Sản phẩm nổi bật</h1>
+        <div id="product-hot"></div>
+
+        <h1>Sản phẩm laptop</h1>
+        <div id="product-laptop"></div>
+
+        <h1>Sản phẩm điện thoại</h1>
+        <div id="product-dienthoai"></div>
+    </main>
+
+    
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeCart">&times;</span>
+            <h2>🛒 Giỏ Hàng Của Bạn</h2>
+            <div id="cartItems" class="cart-items-container">
+                </div>
+            <div class="cart-total">
+                <p>Tổng tiền:</p>
+                <span id="cartTotal">0 đ</span>
+            </div>
+            <button class="checkout-btn">Tiến hành Thanh toán</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
