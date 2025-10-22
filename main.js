@@ -506,7 +506,7 @@ function fetchAndRenderProducts() {
         return;
     }
 
-    fetch('http://localhost:3000/products')
+    fetch('https://github.com/nguyenngockimlong2006-arch/backend-json/blob/main/db.json')
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(displayProducts)
         .catch(() => {
@@ -529,4 +529,5 @@ function initializeApplication() {
     initSlider();
     if (document.getElementById('checkoutForm')) initCheckoutLogic();
 }
+
 
